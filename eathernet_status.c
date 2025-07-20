@@ -50,5 +50,15 @@ void show_eathernet_status() {
     }
     pclose(fp);
 
-    
+    // Display interface state
+    char state_cmd[128];
+    snprintf(state_cmd, sizeof(state_cmd), "cat /sys/class/net/%s/operstate", interface);
+    fp = popen(state_cmd, "r");
+    if (fgets(state, sizeof(state), fp) != NULL) {
+        state[strcspn(state, "\n")] = 0;
+        printf("Interface State :%s\n", state);
+    } else {
+        printf("Interface State : Not Available\n");
+    }
+    pclose(fp);
 }
