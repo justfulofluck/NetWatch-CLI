@@ -36,4 +36,19 @@ void show_eathernet_status() {
         printf("IP Address : Not Assigned\n");
     }
     pclose(fp);
+
+    // Display MAC Address
+    char mac_cmd[128];
+    snprintf(mac_cmd, sizeof(mac_cmd), "cat /sys/class/net/%s/address", interface);
+    fp = popen(mac_cmd, "r");
+    char mac_address[64];
+    if (fgets(mac_address, sizeof(mac_address), fp) != NULL) {
+        mac_address[strcspn(mac_address, "\n")] = 0;
+        printf("MAC Address :%s\n", mac_address);
+    } else {
+        printf("MAC Address : Not Assigned\n");
+    }
+    pclose(fp);
+
+    
 }
